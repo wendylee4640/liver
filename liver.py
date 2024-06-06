@@ -2,12 +2,15 @@ import tkinter as tk
 from tkinter import messagebox
 
 def submit():
-    # 獲取使用者輸入的 GOP、GDP 和性別
-    gop = float(gop_entry.get())
-    gpt = float(gpt_entry.get())
+    try:
+        gop = float(gop_entry.get())
+        gpt = float(gpt_entry.get())
+    except ValueError:
+        messagebox.showerror("輸入錯誤", "請輸入有效的數值。")
+        return
+    
     gender = gender_var.get()
 
-    # 根據使用者輸入的 GOP、GDP 和性別進行判斷，並顯示相應的健康建議
     if gender == "男":
         if gop < 37 and gpt < 41:
             messagebox.showinfo("健康建議", "你的肝是健康寶寶!!")
@@ -21,12 +24,6 @@ def submit():
             response = messagebox.askquestion("健康建議", "你的肝好像有點嚴重ㄟ....你可能是肝臟發炎導致肝指數升高\n你想要救救你的肝嗎?")
             if response == "yes":
                 messagebox.showinfo("健康建議", "少吃辛辣、刺激、添加過多人工香料及熏烤的食物，也不要因為節儉而吃快過期的海產類，在這期間你的消化能力比較弱，記得少量多餐，吃點新鮮魚肉、瘦肉、紅蘿蔔、綠色青菜、番茄、牛奶!")
-            else:
-                messagebox.showinfo("健康建議", "你的肝要哭哭惹....")
-        elif gop >= 37 and gpt >= 41 and gop > gpt:
-            response = messagebox.askquestion("健康建議", "你的肝好像有點嚴重ㄟ....你可能是慢性B、C肝炎 、脂肪性肝炎，或者是因另外藥物性及自體免疫性導致的肝炎\n你想要救救你的肝嗎?")
-            if response == "yes":
-                messagebox.showinfo("健康建議", "先去找醫生確定自己得到哪類型肝炎，並給予相對應治療，如為慢性B肝 ：不要吸菸、嚼檳榔、喝酒，不要食用人工添加劑、醃製、或可能本黃麴毒素所污染的食物（ex：花生醬、豆瓣醬…….）；如為慢性C肝：請多休息、維持規律生活、運動，均衡飲食，避免不必要的打針、刺青、穿耳洞，避免服用成分不明的藥物偏方、草藥；如為脂肪肝：🈲酒🈲油，多攝取蛋白質、食物纖維，還有要多運動!!慢性B肝!")
             else:
                 messagebox.showinfo("健康建議", "你的肝要哭哭惹....")
     elif gender == "女":
@@ -48,6 +45,15 @@ def submit():
 # 創建主視窗
 root = tk.Tk()
 root.title("肝健康評估系統")
+
+# 設定視窗大小為螢幕的1/4並置中
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+window_width = screen_width // 4
+window_height = screen_height // 4
+window_x = (screen_width - window_width) // 2
+window_y = (screen_height - window_height) // 2
+root.geometry(f"{window_width}x{window_height}+{window_x}+{window_y}")
 
 # 創建 GOP 輸入欄位
 gop_label = tk.Label(root, text="請輸入 GOP：")
